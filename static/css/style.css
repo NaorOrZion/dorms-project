@@ -1,0 +1,28 @@
+.card-text-right {
+    text-align: right;
+    direction: rtl;
+}
+
+th, tr, thead, table {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Align choices to right */
+.bootstrap-select .dropdown-toggle .filter-option {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Hide the choice above */
+group>.btn:focus, .btn-group {
+    display: none !important;
+}
+
+.date-picker {
+    width: 180px;
+}
+
+.date-picker > span:hover {
+    cursor: pointer;
+}

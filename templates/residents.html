@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% set active_page = 'residents' %}
+
+{% block title %}מתגוררים{% endblock %}
+
+{% block content %}
+    </br>
+    </br>
+    <div class="row">
+        <!-- Card filter start -->
+        <div class="col-lg-3 card-text-right">
+            <div class="card mb-3">
+                <h3 class="card-header">פילטר</h3>
+                <div class="card-body card-text-right">
+                    <div class="form-group" id="fullName">
+                        <label class="col-form-label mt-2" for="inputName">שם מלא</label>
+                        <div class="container">
+                            <select class="selectpicker" data-live-search="true" id="inputName">
+                              <option selected>ללא</option>
+                              <option value="1">נאור אור ציון</option>
+                              <option value="2">אליס פבזנר</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="room">
+                        <label class="col-form-label mt-2" for="inputRoom-residents">חדר</label>
+                        <div class="container">
+                            <select class="selectpicker" data-live-search="true" id="inputRoom" id="inputRoom-residents">
+                              <option selected>ללא</option>
+                              <option value="1">120</option>
+                              <option value="2">121</option>
+                              <option value="3">122</option>
+                              <option value="4">123</option>
+                              <option value="5">124</option>
+                              <option value="6">125</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="frame">
+                        <label class="col-form-label mt-2" for="inputFrame-residents">מסגרת</label>
+                        <div class="container">
+                            <select class="selectpicker" data-live-search="true" id="inputFrame-residents">
+                                <option value="None" selected>ללא</option>
+                                <option value="מעטפת">מעטפת</option>
+                                <option value="תכנות כחול">תכנות כחול</option>
+                                <option value="תכנות אדום">תכנות אדום</option>
+                                <option value="תכנות צהוב">תכנות צהוב</option>
+                                <option value="תכנות ירוק">תכנות ירוק</option>
+                                <option value="דאטה">דאטה</option>
+                                <option value="SRE">SRE</option>
+                                <option value="DevOps">DevOps</option>
+                                <option value="QA">QA</option>
+                                <option value="מגן סייבר א">מגן סייבר א</option>
+                                <option value="מגן סייבר ב">מגן סייבר ב</option>
+                                <option value="לוגיסטיקה">לוגיסטיקה</option>
+                                <option value="אחר">אחר</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="gender">
+                        <label class="col-form-label mt-2">מגדר החדר</label>
+                        <div class="form-group" role="group" aria-label="Basic radio toggle button group">
+                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio1-residents-filter" autocomplete="off">
+                          <label class="btn btn-outline-info" for="btnradio1-residents-filter" dir="rtl">זכר</label>
+                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio2-residents-filter" autocomplete="off">
+                          <label class="btn btn-outline-secondary" for="btnradio2-residents-filter" dir="rtl">נקבה</label>
+                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio3-residents-filter" autocomplete="off">
+                          <label class="btn btn-outline-primary" for="btnradio3-residents-filter" dir="rtl">טראנס</label>
+                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio4-residents-filter" autocomplete="off" checked="">
+                          <label class="btn btn-outline-dark" for="btnradio4-residents-filter" dir="rtl">ללא</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomSelection" class="form-label mt-4">אינדיקציית מרחק</label>
+                        <select class="form-select" id="roomSelection" style="width:30%">
+                          <option>ללא</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                        </select>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card filter end -->
+
+        <!-- Residents chart start -->
+        <div class="col-lg-8">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">שם מלא</th>
+                      <th scope="col">מסגרת</th>
+                      <th scope="col">מגדר</th>
+                      <th scope="col">אינדיקציית מרחק</th>
+                      <th scope="col">תאריך כניסה</th>
+                      <th scope="col">תאריך יציאה</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for resident in residents %}
+                    <tr class="table-light">
+                        <th scope="row">{{ resident['id'] }}</th>
+                        <td>{{ resident['full_name'] }}</td>
+                        <td>{{ resident['association'] }}</td>
+                        <td>{{ resident['gender'] }}</td>
+                        <td>{{ resident['distance'] }}</td>
+                        <!-- Date format DD.MM.YYYY -->
+                        <td>{{ resident['entering_date'] }}</td> 
+                        <td>{{ resident['existing_date'] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+        </div>
+        <!-- Residents end -->
+
+        <!-- Add new resident start -->
+        <div class="col-lg-1">
+            <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#residentModal"> + </button>
+        </div>
+        <!-- Add new resident end -->
+
+        <!-- Modal new resident start -->
+        <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="residentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="POST" action="{{ url_for('new_resident') }}">
+                    <div class="modal-content card-text-right">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="roomModalLabel">יצירת מתגורר חדש</h5>
+                        </div>
+                        <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="col-form-label col-form-label-lg mt-4" for="input-full-name-resident">שם מלא</label>
+                                        {{ newResidentForm.full_name_field(class="form-control form-control-lg", placeholder="ניסים מזרחי אדרי בן זכאי", style="width: 70%;") }}
+                                    </div>
+
+                                    <label class="col-form-label col-form-label-lg mt-4" for="inputRoom">מסגרת</label>
+                                    <div class="form-group">
+                                        {{ newResidentForm.frame_selection_field(class="selectpicker", data_live_search="true") }}
+                                    </div>
+
+                                    <!-- Gender selection start -->
+                                    <div class="form-group" id="gender">
+                                        <label class="col-form-label col-form-label-lg mt-4">מגדר</label>
+                                        <div class="form-group" role="group" aria-label="Basic radio toggle button group">
+                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio1-resident" value="זכר" autocomplete="off">
+                                            <label class="btn btn-outline-info" for="btnradio1-resident" dir="rtl">זכר</label>
+                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio2-resident" value="נקבה" autocomplete="off">
+                                            <label class="btn btn-outline-secondary" for="btnradio2-resident" dir="rtl">נקבה</label>
+                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio3-resident" value="אחר" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="btnradio3-resident" dir="rtl">אחר</label>
+                                        </div>
+                                    </div>
+                                    <!-- Gender selection end -->
+
+                                    <div class="form-group">
+                                        <label for="distance-indication-resident" class="col-form-label col-form-label-lg mb-1 mt-4">אינדיקציית מרחק</label>
+                                        </br>
+                                        {{ newResidentForm.distance_selection_field(class="selectpicker", data_live_search="true", style="width:30%", id="distance-indication-resident") }}
+                                    </div>
+
+                                    
+        
+                                    <!-- Enter date -->
+                                    <label for="datepicker-enter" class="col-form-label col-form-label-lg mt-4">תאריך כניסה:</label>
+                                    <div id="datepicker-enter" class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                        <input class="form-control" type="text" name="enter-date" readonly />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+
+                                    <!-- Exit date -->
+                                    <label for="datepicker-exit" class="col-form-label col-form-label-lg mt-4">תאריך יציאה:</label>
+                                    <div id="datepicker-exit" class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                        <input class="form-control" type="text" name="exit-date" readonly />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                    </br>
+                                    
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+                            {{ newResidentForm.submit(class="btn btn-primary", type="submit") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal new resident end -->
+    </div>
+{% endblock %}
