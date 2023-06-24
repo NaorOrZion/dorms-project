@@ -1,11 +1,11 @@
-# Students' Dorms
+# Students' Dorms Website
 
 ## Why did I create the project?
 There is an xlsx file that describes where every student resides.
-This file is unorganized and complex to read and understand for students and also hard to manage.
+This file is unorganized, complex to read and understand for students and also hard to manage.
 
 ## My solution
-Create a website for the dorms that will organize the way people can view where they reside in the dorms
+My solution is to create a website for the dorms that will organize the way people can view where they reside in the dorms
 and organize the way the responsible guy on this website manages it.
 
 ## What does the website include
