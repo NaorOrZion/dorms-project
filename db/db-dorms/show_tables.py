@@ -1,15 +1,21 @@
-import sqlite3
 import os
+import sys
 
-db_abs_path = os.path.dirname(os.path.realpath(__file__)) + '/dorms.db'
+FILE_ABSOLUTE_PATH = os.path.abspath(__file__)
+CURRENT_DIR = os.path.dirname(FILE_ABSOLUTE_PATH) # get directory path of file
+PARENT_DIR = os.path.dirname(CURRENT_DIR) # get parent directory path
+BASE_DIR = os.path.dirname(PARENT_DIR) # get grandparent directory path
+sys.path.insert(0, BASE_DIR)
 
-conn = sqlite3.connect(db_abs_path)
+from db import get_db
+
+conn = get_db()
 c = conn.cursor()
-
 
 def show_buildings():
     try:
-        buildings = c.execute("SELECT * FROM buildings")
+        c.execute("SELECT * FROM buildings")
+        buildings = c.fetchall()
 
         print("BUILDINGS")
         print("#############")
@@ -24,7 +30,8 @@ def show_buildings():
 
 def show_apartments():
     try:
-        apartments = c.execute("SELECT * FROM apartments")
+        c.execute("SELECT * FROM apartments")
+        apartments = c.fetchall()
 
         print("APARTMENTS")
         print("#############")
@@ -41,7 +48,8 @@ def show_apartments():
 
 def show_rooms():
     try:
-        rooms = c.execute("SELECT * FROM rooms")
+        c.execute("SELECT * FROM rooms")
+        rooms = c.fetchall()
 
         print("ROOMS")
         print("#############")
@@ -58,15 +66,17 @@ def show_rooms():
 
 def show_aminach_beds():
     try:
-        aminach_beds = c.execute("SELECT * FROM aminach_bed")
+        c.execute("SELECT * FROM aminach_bed")
+        aminach_beds = c.fetchall()
 
         print("AMINACH BEDS")
         print("#############")
         for row in aminach_beds:
             print("Apartment id:             ", row[0]),
-            print("Mattress quantity:        ", row[1]),
-            print("Person 1:                 ", row[2]),
-            print("Room id:                  ", row[3]),
+            print("Bed id:                   ", row[1]),
+            print("Mattress quantity:        ", row[2]),
+            print("Person 1:                 ", row[3]),
+            print("Room id:                  ", row[4]),
             print("\n")
     except:
         print("Something went wrong, please run db_init.py to initialize the database.")
@@ -75,16 +85,18 @@ def show_aminach_beds():
 
 def show_bunk_beds():
     try:
-        bunk_beds = c.execute("SELECT * FROM bunk_bed")
+        c.execute("SELECT * FROM bunk_bed")
+        bunk_beds = c.fetchall()
 
         print("BUNK BEDS")
         print("#############")
         for row in bunk_beds:
             print("Apartment id:             ", row[0]),
-            print("Mattress quantity:        ", row[1]),
-            print("Person 1:                 ", row[2]),
-            print("Person 2:                 ", row[3]),
-            print("Room id:                  ", row[4]),
+            print("Bed id:                   ", row[1]),
+            print("Mattress quantity:        ", row[2]),
+            print("Person 1:                 ", row[3]),
+            print("Person 2:                 ", row[4]),
+            print("Room id:                  ", row[5]),
             print("\n")
     except:
         print("Something went wrong, please run db_init.py to initialize the database.")
@@ -93,7 +105,8 @@ def show_bunk_beds():
 
 def show_residents():
     try:
-        residents = c.execute("SELECT * FROM residents")
+        c.execute("SELECT * FROM residents")
+        residents = c.fetchall()
 
         print("RESIDENTS")
         print("#############")
@@ -102,9 +115,10 @@ def show_residents():
             print("Full name:                ", row[1]),
             print("Association:              ", row[2]),
             print("Gender:                   ", row[3]),
-            print("Distance indication:      ", row[4]),
-            print("Entering date:            ", row[5]),
-            print("Exiting date:             ", row[6]),
+            print("Service:                  ", row[4]),
+            print("Live in Beer-Sheva:       ", row[5]),
+            print("Real life ID:             ", row[6]),
+            print("Apartment linked:         ", row[7]),
             print("\n")
     except:
         print("Something went wrong, please run db_init.py to initialize the database.")

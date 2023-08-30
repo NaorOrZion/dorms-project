@@ -1,17 +1,22 @@
-import sqlite3
 import os
+import sys
 
-# Create the database file on the same directory as this script
-db_abs_path = os.path.dirname(os.path.realpath(__file__)) + '/dorms.db'
+FILE_ABSOLUTE_PATH = os.path.abspath(__file__)
+CURRENT_DIR = os.path.dirname(FILE_ABSOLUTE_PATH) # get directory path of file
+PARENT_DIR = os.path.dirname(CURRENT_DIR) # get parent directory path
+BASE_DIR = os.path.dirname(PARENT_DIR) # get grandparent directory path
+sys.path.insert(0, BASE_DIR)
+
+from db import get_db
 
 # Connect to the database
-conn = sqlite3.connect(db_abs_path)
+conn = get_db()
 c = conn.cursor()
 
 # Delete the current tables exists
-c.execute("DROP TABLE IF EXISTS buildings")
-c.execute("DROP TABLE IF EXISTS apartments")
-c.execute("DROP TABLE IF EXISTS rooms")
+c.execute("DROP TABLE IF EXISTS buildings CASCADE")
+c.execute("DROP TABLE IF EXISTS apartments CASCADE")
+c.execute("DROP TABLE IF EXISTS rooms CASCADE")
 c.execute("DROP TABLE IF EXISTS aminach_bed")
 c.execute("DROP TABLE IF EXISTS bunk_bed")
 c.execute("DROP TABLE IF EXISTS residents")
@@ -30,7 +35,7 @@ c.execute("""CREATE TABLE apartments(
                     rooms_in_apt    INTEGER,
                     gender          TEXT,
                     building_id     INTEGER,
-                    FOREIGN KEY (building_id) REFERENCES buildings(building_id)
+                    FOREIGN KEY (building_id) REFERENCES buildings(building_id) ON DELETE CASCADE
 )""")
 
 # Rooms table:
@@ -44,7 +49,7 @@ c.execute("""CREATE TABLE rooms(
                     aminach_beds    INTEGER,
                     bunk_beds       INTEGER,
                     PRIMARY KEY (apt_id, room_id),
-                    FOREIGN KEY (apt_id) REFERENCES apartments(apt_id)
+                    FOREIGN KEY (apt_id) REFERENCES apartments(apt_id) ON DELETE CASCADE
 )""")
 
 # Aminach bed table:
@@ -52,10 +57,11 @@ c.execute("""CREATE TABLE rooms(
 # room with the help of the FOREIGN KEY
 c.execute("""CREATE TABLE aminach_bed(
                     apt_id          INTEGER,
+                    bed_id          INTEGER,
                     mattress_count  INTEGER,
                     person1         TEXT,
                     room_id         INTEGER,
-                    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+                    FOREIGN KEY (apt_id, room_id) REFERENCES rooms(apt_id, room_id) ON DELETE CASCADE
 )""")
 
 # Bunk bed table:
@@ -63,23 +69,26 @@ c.execute("""CREATE TABLE aminach_bed(
 # room with the help of the FOREIGN KEY
 c.execute("""CREATE TABLE bunk_bed(
                     apt_id          INTEGER,
+                    bed_id          INTEGER,
                     mattress_count  INTEGER,
                     person1         TEXT,
                     person2         TEXT,
                     room_id         INTEGER,
-                    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+                    FOREIGN KEY (apt_id, room_id) REFERENCES rooms(apt_id, room_id) ON DELETE CASCADE
 )""")
 
 # Residents table:
 # This table will store all the soldiers residing in bsmch's dorms.
 c.execute("""CREATE TABLE residents(
-                    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id              SERIAL PRIMARY KEY,
                     full_name       TEXT,
                     association     TEXT,
                     gender          TEXT,
-                    distance        INTEGER,
-                    entering_date   TIMESTAMP,
-                    existing_date   TIMESTAMP   
+                    service         TEXT,
+                    beersheva       TEXT,
+                    taz             TEXT,
+                    apartment       INTEGER,
+                    unique (full_name, association, gender, service, beersheva, taz)
 )""")
 
 conn.commit()

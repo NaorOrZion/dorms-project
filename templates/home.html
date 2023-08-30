@@ -4,190 +4,491 @@
 {% block title %}דף הבית{% endblock %}
 
 {% block content %}
-</br></br><div class="row">
-	<!-- Card filter start -->
-	<div class="col-lg-3 card-text-right">
-		<div class="card mb-3">
-			<h3 class="card-header">פילטר</h3>
-			<div class="card-body card-text-right">
-				<div class="form-group" id="fullName">
-					<label class="col-form-label mt-2">שם מלא</label>
-					<div class="container">
-						<select class="selectpicker" multiple data-live-search="true">
-							<option value="1">נאור אור ציון</option>
-							<option value="2">אליס פבזנר</option>
-						</select>
+</br></br>
+<div class="row">
+	<div class="col-lg-9">
+		<div id="accordion">
+			<div class="row mb-3 card-text-right">
+				<div class="col-lg-4 mb-2">
+					<div class="card border-info">
+						<div class="card-header"><strong>זכר</strong></div>
+						<div class="card-body">
+							<table class="table table-hover">
+								<thead>
+								  <tr>
+									<th scope="col">מיטות</th>
+									<th scope="col">קיימות</th>
+									<th scope="col">פנויות</th>
+								  </tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">יחיד</th>
+										<td>{{ beds_quantity_info["male_existing_aminach_beds"] }}</td>
+										<td>{{ beds_quantity_info["male_empty_aminach_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">קומותיים</th>
+										<td>{{ beds_quantity_info["male_existing_bunk_beds"] }}</td>
+										<td>{{ beds_quantity_info["male_empty_bunk_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">סה"כ</th>
+										<td>
+											{{ beds_quantity_info["male_existing_aminach_beds"] + beds_quantity_info["male_existing_bunk_beds"] }}
+										</td>
+										<td>
+											{{ beds_quantity_info["male_empty_aminach_beds"] + beds_quantity_info["male_empty_bunk_beds"] }}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="form-group" id="room">
-					<label class="col-form-label mt-2">חדר</label>
-					<div class="container">
-						<select class="selectpicker" multiple data-live-search="true">
-							<option value="1">120</option>
-							<option value="2">121</option>
-							<option value="3">122</option>
-							<option value="4">123</option>
-							<option value="5">124</option>
-							<option value="6">125</option>
-						</select>
+				<div class="col-lg-4 mb-2">
+					<div class="card border-secondary">
+						<div class="card-header"><strong>נקבה</strong></div>
+						<div class="card-body">
+							<table class="table table-hover">
+								<thead>
+								  <tr>
+									<th scope="col">מיטות</th>
+									<th scope="col">קיימות</th>
+									<th scope="col">פנויות</th>
+								  </tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">יחיד</th>
+										<td>{{ beds_quantity_info["female_existing_aminach_beds"] }}</td>
+										<td>{{ beds_quantity_info["female_empty_aminach_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">קומותיים</th>
+										<td>{{ beds_quantity_info["female_existing_bunk_beds"] }}</td>
+										<td>{{ beds_quantity_info["female_empty_bunk_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">סה"כ</th>
+										<td>
+											{{ beds_quantity_info["female_existing_aminach_beds"] + beds_quantity_info["female_existing_bunk_beds"] }}
+										</td>
+										<td>
+											{{ beds_quantity_info["female_empty_aminach_beds"] + beds_quantity_info["female_empty_bunk_beds"] }}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="form-group" id="frame">
-					<label class="col-form-label mt-2">מסגרת</label>
-					<div class="container">
-						<select class="selectpicker" multiple data-live-search="true">
-							<option value="None" selected>ללא</option>
-							<option value="מעטפת">מעטפת</option>
-							<option value="תכנות כחול">תכנות כחול</option>
-							<option value="תכנות אדום">תכנות אדום</option>
-							<option value="תכנות צהוב">תכנות צהוב</option>
-							<option value="תכנות ירוק">תכנות ירוק</option>
-							<option value="דאטה">דאטה</option>
-							<option value="SRE">SRE</option>
-							<option value="DevOps">DevOps</option>
-							<option value="QA">QA</option>
-							<option value="מגן סייבר א">מגן סייבר א</option>
-							<option value="מגן סייבר ב">מגן סייבר ב</option>
-							<option value="לוגיסטיקה">לוגיסטיקה</option>
-							<option value="אחר">אחר</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group" id="gender-filter">
-					<label class="col-form-label mt-2">מגדר החדר</label>
-					<div class="form-group" role="group" aria-label="Basic radio toggle button group">
-						<input type="radio" class="btn-check" name="btnradio" id="btn-radio-filter1" autocomplete="off">
-						<label class="btn btn-outline-info" for="btn-radio-filter1" dir="rtl">זכר</label>
-						<input type="radio" class="btn-check" name="btnradio" id="btn-radio-filter2" autocomplete="off">
-						<label class="btn btn-outline-secondary" for="btn-radio-filter2" dir="rtl">נקבה</label>
-						<input type="radio" class="btn-check" name="btnradio" id="btn-radio-filter3" autocomplete="off">
-						<label class="btn btn-outline-primary" for="btn-radio-filter3" dir="rtl">טראנס</label>
-						<input type="radio" class="btn-check" name="btnradio" id="btn-radio-filter4" autocomplete="off" checked="">
-						<label class="btn btn-outline-dark" for="btn-radio-filter4" dir="rtl">ללא</label>
+				<div class="col-lg-4 mb-2">
+					<div class="card border-primary">
+						<div class="card-header"><strong>אחר</strong></div>
+						<div class="card-body">
+							<table class="table table-hover">
+								<thead>
+								  <tr>
+									<th scope="col">מיטות</th>
+									<th scope="col">קיימות</th>
+									<th scope="col">פנויות</th>
+								  </tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">יחיד</th>
+										<td>{{ beds_quantity_info["unknown_existing_aminach_beds"] }}</td>
+										<td>{{ beds_quantity_info["unknown_empty_aminach_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">קומותיים</th>
+										<td>{{ beds_quantity_info["unknown_existing_bunk_beds"] }}</td>
+										<td>{{ beds_quantity_info["unknown_empty_bunk_beds"] }}</td>
+									</tr>
+									<tr>
+										<th scope="row">סה"כ</th>
+										<td>
+											{{ beds_quantity_info["unknown_existing_aminach_beds"] + beds_quantity_info["unknown_existing_bunk_beds"] }}
+										</td>
+										<td>
+											{{ beds_quantity_info["unknown_empty_aminach_beds"] + beds_quantity_info["unknown_empty_bunk_beds"] }}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- Card filter end -->
-	<div class="col-lg-9">
-		<div id="accordion">
 			{% if buildings %}
 				{% for building in buildings %}
 				<!-- Card start -->
 				<div class="card">
+					<!-- building header card start -->
 					<div class="card-header card-text-right" id="heading-{{ building['building_id'] }}">
 						<h5 class="mb-0">
+							{% if is_logged_in %}
+								<button type="submit" class="btn btn-trash" data-toggle="modal" data-target="#safetyDeletionModal-{{ building['building_id'] }}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+										<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+										<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+									</svg>
+								</button>
+								<form>
+									<button class="btn btn-edit">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+											<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+										</svg>
+									</button>
+								</form>
+							{% endif %}
 							<button class="btn btn-primary" data-toggle="collapse" data-target="#collapse-{{ building['building_id'] }}" aria-expanded="true" aria-controls="collapse-{{ building['building_id'] }}"> בניין {{ building['building_id'] }} </button>
 						</h5>
 					</div>
-					<div id="collapse-{{ building['building_id'] }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+					<!-- building header card end -->
+
+					<div id="collapse-{{ building['building_id'] }}" class="collapse {{ collapse_show_text }}" aria-labelledby="headingOne" data-parent="#accordion">
 						<div class="card-body text-right" dir="rtl">
 							{% if apartments %}
 								{% for apartment in apartments %}
 									{% if apartment['building_id'] == building['building_id'] %}
-										<!-- Button trigger modal start -->
-										<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#roomModal-{{ apartment['apt_id'] }}"> דירה {{ apartment['apt_id'] }} </button>
-										<!-- Button add room start -->
+										<!-- Button trigger apartment modal start -->
+										{% if is_logged_in %}
+											<button type="button" class="btn form-group btn-secondary apartment-btn admin-apartment-btn mb-2" data-apartment-id="{{ apartment['apt_id'] }}" data-toggle="modal" data-target="#roomModal-{{ apartment['apt_id'] }}">
+												דירה {{ apartment['apt_id'] }}
+												<button type="submit" class="btn form-group btn-delete-room btn-secondary mb-2 pl-2" data-toggle="modal" data-target="#safetyAptDeletionModal-{{ apartment['apt_id'] }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+														<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+													</svg>
+												</button>
+											</button>
+										{% else %}
+											<button type="button" class="btn form-group btn-secondary mb-2 apartment-btn" data-apartment-id="{{ apartment['apt_id'] }}" data-toggle="modal" data-target="#roomModal-{{ apartment['apt_id'] }}">
+												דירה {{ apartment['apt_id'] }}
+											</button>
+										{% endif %}
+										<!-- Button trigger apartment modal end -->
+										{% if is_logged_in %}
+											<!-- Modal apartment safety deletion start -->
+											<div class="modal fade" id="safetyAptDeletionModal-{{ apartment['apt_id'] }}" tabindex="-1" role="dialog" aria-labelledby="safetyAptDeletionModalLabel-{{ apartment['apt_id'] }}" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content card-text-right">
+														<form method="POST" action="{{ url_for('delete_apartments', apartments=None, apt_id=apartment['apt_id']) }}">
+															<div class="modal-header">
+																<h5 class="modal-title" id="safetyAptDeletionModalLabel">למחוק את דירה {{ apartment['apt_id'] }} בוודאות?</h5>
+															</div>
+															<div class="modal-body">
+																<label class="col-form-label-lg">מחיקה של דירה תביא למחיקה של כל הלנים בתוכה, למחוק את הדירה כולה בכל זאת?</label>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">ביטול</button>
+																<button type="submit" class="btn btn-primary">אישור</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<!-- Modal apartment safety deletion end-->
+										{% endif %}
 									{% endif %}
 								{% endfor %}
 							{% endif %}
-
-							<!-- Button add room start -->
-							<button type="button" class="btn btn-outline-secondary send-building-id" data-toggle="modal" data-target="#roomModal" data-id="{{ building['building_id'] }}"> + </button>
-							<!-- Button add room end -->
-
 							
+							{% if is_logged_in %}
+								<!-- Button add room start -->
+								<button type="button" id="sends-building-id" class="btn btn-outline-secondary send-building-id mb-2" data-toggle="modal" data-target="#roomModal" data-id="{{ building['building_id'] }}"> + </button>
+								<!-- Button add room end -->
+							{% endif %}
 						</div>
 					</div>
 				</div>
 				</br>
 				<!-- Card end -->
+				{% if is_logged_in %}
+				<!-- Modal building safety deletion start -->
+					<div class="modal fade" id="safetyDeletionModal-{{ building['building_id'] }}" tabindex="-1" role="dialog" aria-labelledby="safetyDeletionModalLabel-{{ building['building_id'] }}" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content card-text-right">
+								<form method="POST" action="{{ url_for('delete_building', building_id=building['building_id']) }}">
+									<div class="modal-header">
+										<h5 class="modal-title" id="safetyDeletionModalLabel">למחוק את בניין {{ building['building_id'] }} בוודאות?</h5>
+									</div>
+									<div class="modal-body">
+										<label class="col-form-label-lg">מחיקה של בניין תביא למחיקה של כל הדירות בתוכו, למחוק את הבניין כולו בכל זאת?</label>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">ביטול</button>
+										<button type="submit" class="btn btn-primary">אישור</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				<!-- Modal building safety deletion end-->
+				{% endif %}
 				{% endfor %}
 			{% endif %}
 
-			<!-- Card add building start -->
-			<div class="card">
-				<div class="card-header card-text-right" id="headingThree">
-				<h5 class="mb-0">
-					<button class="btn btn-outline-primary" data-toggle="modal" data-target="#buildingModal"> + </button>
-				</h5>
-				</div>
-			</div>
-			</br>
-			<!-- Card add building end -->
-		
-			<!-- Modal new building start -->
-			<div class="modal fade" id="buildingModal" tabindex="-1" role="dialog" aria-labelledby="buildingModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content card-text-right">
-						<form method="POST" action="{{ url_for('new_building') }}">
-							<div class="modal-header">
-								<h5 class="modal-title" id="buildingModalLabel">יצירת בניין חדש</h5>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<label class="col-form-label col-form-label-lg">מספר הבניין החדש</label>
-									{{ newBuildingForm.hidden_tag() }}
-									{{ newBuildingForm.title(class="form-control form-control-lg", type="number", placeholder="לדוגמה 71", dir="rtl") }}
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
-								<button type="submit" class="btn btn-primary" name="submit-new-building">שמירת שינויים</button>
-							</div>
-						</form>
+			{% if is_logged_in %}
+				<!-- Card add building start -->
+				<div class="card">
+					<div class="card-header card-text-right" id="headingThree">
+					<h5 class="mb-0">
+						<button class="btn btn-outline-primary" data-toggle="modal" data-target="#buildingModal"> + </button>
+					</h5>
 					</div>
 				</div>
-			</div>
-			<!-- Modal new building end -->
-			<!-- Modal existing rooms start -->
+				</br>
+				<!-- Card add building end -->
+			{% endif %}
+		
+			{% if is_logged_in %}
+				<!-- Modal new building start -->
+				<div class="modal fade" id="buildingModal" tabindex="-1" role="dialog" aria-labelledby="buildingModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content card-text-right">
+							<form method="POST" action="{{ url_for('new_building') }}">
+								<div class="modal-header">
+									<h5 class="modal-title" id="buildingModalLabel">יצירת בניין חדש</h5>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label class="col-form-label col-form-label-lg">מספר הבניין החדש</label>
+										{{ newBuildingForm.hidden_tag() }}
+										{{ newBuildingForm.title(class="form-control form-control-lg", type="number", placeholder="לדוגמה 71", dir="rtl") }}
+									</div>
+									<!-- Display flashed messages -->
+									{% with messages = get_flashed_messages(with_categories=true, category_filter=["new-building"]) %}
+										{% if messages %}
+											{% for category, message in messages %}
+												<div class="alert alert-dismissible alert-danger mt-2" data-category="{{ category }}">
+													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+														<span aria-hidden="true"><strong>×</strong></span>
+													</button>
+													{{ message }}
+												</div>
+											{% endfor %}
+										{% endif %}
+									{% endwith %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+									<button type="submit" class="btn btn-primary" name="submit-new-building">שמירת שינויים</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Modal new building end -->
+			{% endif %}
+
+			<!-- Modal existing apartment start -->
 			{% if apartments %}
     			{% for apartment in apartments %}
 					<div class="modal fade" id="roomModal-{{ apartment['apt_id'] }}" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel-{{ apartment['apt_id'] }}" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content card-text-right">
+								{% if is_logged_in %}
+									<form method="POST" action="{{ url_for('update_apartment', existing_apt_id=apartment['apt_id']) }}">
+										<div class="modal-header">
+											<h5 class="modal-title" id="roomModalLabel-{{ apartment['apt_id'] }}">דירה {{ apartment['apt_id'] }}</h5>
+										</div>
+										<div class="modal-body">
+											<input type="hidden" name="building-id" id="building-id" value="{{ apartment['building_id'] }}"/>
+											
+											<div class="form-group">
+												<label class="col-form-label col-form-label-lg">מספר הדירה</label>
+												{{ newApartmentForm.hidden_tag() }}
+												{{ newApartmentForm.apt_id(class="form-control form-control-lg", type="number", placeholder="לדוגמה 120", dir="rtl", value=apartment['apt_id'], id=apartment['apt_id']) }}
+											</div>
+		
+											<!-- Gender selection start -->
+											<div class="form-group" id="gender">
+												<label class="col-form-label col-form-label-lg mt-3">מגדר הדירה</label>
+												<div class="form-group" role="group" aria-label="Basic radio toggle button group">
+													{% set is_checked_male = "" %}
+													{% set is_checked_female = "" %}
+													{% set is_checked_unknown = "" %}
+													{% if apartment['gender'] == 'זכר' %}
+														{% set is_checked_male = 'checked' %}
+													{% elif apartment['gender'] == 'נקבה'%}
+														{% set is_checked_female = 'checked' %}
+													{% elif apartment['gender'] == 'אחר' %}
+														{% set is_checked_unknown = 'checked' %}
+													{% endif %}
+													<input value="זכר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio1-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_male }}>
+													<label class="btn btn-outline-info" for="btnradio1-home-{{ apartment['apt_id'] }}" dir="rtl">זכר</label>
+													<input value="נקבה" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio2-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_female }}>
+													<label class="btn btn-outline-secondary" for="btnradio2-home-{{ apartment['apt_id'] }}" dir="rtl">נקבה</label>
+													<input value="אחר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio3-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_unknown }}>
+													<label class="btn btn-outline-primary" for="btnradio3-home-{{ apartment['apt_id'] }}" dir="rtl">אחר</label>
+												</div>
+											</div>
+											<!-- Gender selection end -->
+		
+											<!-- Rooms quantity start -->
+											<div class="form-group">
+												<label for="roomSelection-{{ apartment['apt_id'] }}" class="col-form-label-lg mt-3">מספר חדרי שינה בדירה</label>
+												<select class="form-select" value="{{ apartment['rooms_in_apt'] }}" name="roomSelection-{{ apartment['apt_id'] }}" id="roomSelection-{{ apartment['apt_id'] }}" style="width:20%" onfocus="this.selectedIndex = -1;"  onchange="createRoomSetting(`{{ apartment['apt_id'] }}`, this.value, `-{{ apartment['apt_id'] }}`);">
+													<option>0</option>
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+													<option>6</option>
+													<option>7</option>
+													<option>8</option>
+													<option>9</option>
+												</select>
+												<br>
+											</div>
+											<!-- Rooms quantity end -->
+		
+											<!-- Room settings start -->
+											<div class="form-group" id="roomsSettings-{{ apartment['apt_id'] }}"></div>
+											<!-- Room settings end -->
+										</div>
+		
+										<div class="modal-footer" id="test">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+											<button type="submit" class="btn btn-primary" name="submit-existing-apartment-{{ apartment['apt_id'] }}">שמירת שינויים</button>
+										</div>
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+												const selectElement = document.querySelector("#roomSelection-{{ apartment['apt_id'] }}");
+												const optionElements = selectElement.querySelectorAll('option');
+												const roomsInApt = "{{ apartment['rooms_in_apt'] }}";
+												optionElements.forEach(optionElement => {
+													if (optionElement.value === roomsInApt) {
+														optionElement.selected = true;
+													}
+												});
+											});
+										</script>
+									</form>
+								{% else %}
+									<div class="modal-header">
+										<h5 class="modal-title" id="roomModalLabel-{{ apartment['apt_id'] }}">דירה {{ apartment['apt_id'] }}</h5>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<label class="col-form-label col-form-label-lg">מספר הדירה</label>
+											{{ newApartmentForm.hidden_tag() }}
+											{{ newApartmentForm.apt_id(class="form-control form-control-lg", disabled="", type="number", placeholder="לדוגמה 120", dir="rtl", value=apartment['apt_id'], id=apartment['apt_id']) }}
+										</div>
+
+										<!-- Gender selection start -->
+										<div class="form-group" id="gender">
+											<label class="col-form-label col-form-label-lg mt-3">מגדר הדירה</label>
+											<div class="form-group" role="group" aria-label="Basic radio toggle button group">
+												{% set is_checked_male = "" %}
+												{% set is_checked_female = "" %}
+												{% set is_checked_unknown = "" %}
+												{% if apartment['gender'] == 'זכר' %}
+													{% set is_checked_male = 'checked' %}
+												{% elif apartment['gender'] == 'נקבה'%}
+													{% set is_checked_female = 'checked' %}
+												{% elif apartment['gender'] == 'אחר' %}
+													{% set is_checked_unknown = 'checked' %}
+												{% endif %}
+												<input value="זכר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio1-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_male }}>
+												<label class="btn btn-outline-info disabled" for="btnradio1-home-{{ apartment['apt_id'] }}" dir="rtl">זכר</label>
+												<input value="נקבה" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio2-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_female }}>
+												<label class="btn btn-outline-secondary disabled" for="btnradio2-home-{{ apartment['apt_id'] }}" dir="rtl">נקבה</label>
+												<input value="אחר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio3-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_unknown }}>
+												<label class="btn btn-outline-primary disabled" for="btnradio3-home-{{ apartment['apt_id'] }}" dir="rtl">אחר</label>
+											</div>
+										</div>
+										<!-- Gender selection end -->
+
+										<!-- Rooms quantity start -->
+										<div class="form-group">
+											<label for="roomSelection-{{ apartment['apt_id'] }}" class="col-form-label-lg mt-3">מספר חדרי שינה בדירה</label>
+											<select class="form-select" value="{{ apartment['rooms_in_apt'] }}" name="roomSelection-{{ apartment['apt_id'] }}" id="roomSelection-{{ apartment['apt_id'] }}" style="width:20%" onfocus="this.selectedIndex = -1;" disabled="" onchange="createRoomSetting(`{{ apartment['apt_id'] }}`, this.value, `-{{ apartment['apt_id'] }}`);">
+												<option>0</option>
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+												<option>6</option>
+												<option>7</option>
+												<option>8</option>
+												<option>9</option>
+											</select>
+											<br>
+										</div>
+										<!-- Rooms quantity end -->
+
+										<!-- Room settings start -->
+										<div class="form-group" id="roomsSettings-{{ apartment['apt_id'] }}"></div>
+										<!-- Room settings end -->
+									</div>
+
+									<div class="modal-footer" id="test">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+										{% if is_logged_in %}
+											<button type="submit" class="btn btn-primary" name="submit-existing-apartment-{{ apartment['apt_id'] }}">שמירת שינויים</button>
+										{% endif %}
+									</div>
+									<script>
+										document.addEventListener('DOMContentLoaded', function () {
+										const selectElement = document.querySelector("#roomSelection-{{ apartment['apt_id'] }}");
+										const optionElements = selectElement.querySelectorAll('option');
+										const roomsInApt = "{{ apartment['rooms_in_apt'] }}";
+										optionElements.forEach(optionElement => {
+											if (optionElement.value === roomsInApt) {
+												optionElement.selected = true;
+											}
+										});
+										});
+									</script>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+			<!-- Modal existing rooms end -->
+			{% if is_logged_in %}
+				<!-- Modal new room start -->
+				<div class="modal fade" id="roomModal" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content card-text-right">
+							<form method="POST" action="{{ url_for('new_apartment') }}">
 								<div class="modal-header">
-									<h5 class="modal-title" id="roomModalLabel-{{ apartment['apt_id'] }}">דירה {{ apartment['apt_id'] }}</h5>
+									<h5 class="modal-title" id="roomModalLabel">יצירת דירה חדשה</h5>
 								</div>
 								<div class="modal-body">
-									<input type="hidden" name="building-id" id="building-id" value="{{ apartment['building_id'] }}"/>
-									
+									<input type="hidden" name="building-id-new-apt" id="building-id-new-apt" value=""/>
+
 									<div class="form-group">
-										<label class="col-form-label col-form-label-lg">מספר הדירה</label>
+										<label class="col-form-label col-form-label-lg mt-3">מספר הדירה החדשה</label>
 										{{ newApartmentForm.hidden_tag() }}
-										{{ newApartmentForm.apt_id(class="form-control form-control-lg", type="number", placeholder="לדוגמה 120", dir="rtl", value=apartment['apt_id']) }}
+										{{ newApartmentForm.apt_id(class="form-control form-control-lg", type="number", placeholder="לדוגמה 120", dir="rtl") }}
 									</div>
 
 									<!-- Gender selection start -->
 									<div class="form-group" id="gender">
-										<label class="col-form-label col-form-label-lg">מגדר הדירה</label>
+										<label class="col-form-label col-form-label-lg mt-3">מגדר הדירה</label>
 										<div class="form-group" role="group" aria-label="Basic radio toggle button group">
-											{% set is_checked_male = "" %}
-											{% set is_checked_female = "" %}
-											{% set is_checked_unknown = "" %}
-											{% if apartment['gender'] == 'זכר' %}
-												{% set is_checked_male = 'checked' %}
-											{% elif apartment['gender'] == 'נקבה'%}
-												{% set is_checked_female = 'checked' %}
-											{% elif apartment['gender'] == 'אחר' %}
-												{% set is_checked_unknown = 'checked' %}
-											{% endif %}
-											<input value="זכר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio1-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_male }}>
-											<label class="btn btn-outline-info" for="btnradio1-home-{{ apartment['apt_id'] }}" dir="rtl">זכר</label>
-											<input value="נקבה" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio2-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_female }}>
-											<label class="btn btn-outline-secondary" for="btnradio2-home-{{ apartment['apt_id'] }}" dir="rtl">נקבה</label>
-											<input value="אחר" type="radio" class="btn-check" name="btnradio-home-{{ apartment['apt_id'] }}" id="btnradio3-home-{{ apartment['apt_id'] }}" autocomplete="off" {{ is_checked_unknown }}>
-											<label class="btn btn-outline-primary" for="btnradio3-home-{{ apartment['apt_id'] }}" dir="rtl">אחר</label>
+											<input value="זכר" type="radio" class="btn-check" name="btnradio-home" id="btnradio1-home" autocomplete="off">
+											<label class="btn btn-outline-info" for="btnradio1-home" dir="rtl">זכר</label>
+											<input value="נקבה" type="radio" class="btn-check" name="btnradio-home" id="btnradio2-home" autocomplete="off">
+											<label class="btn btn-outline-secondary" for="btnradio2-home" dir="rtl">נקבה</label>
+											<input value="אחר" type="radio" class="btn-check" name="btnradio-home" id="btnradio3-home" autocomplete="off">
+											<label class="btn btn-outline-primary" for="btnradio3-home" dir="rtl">אחר</label>
 										</div>
 									</div>
 									<!-- Gender selection end -->
 
 									<!-- Rooms quantity start -->
 									<div class="form-group">
-										<label for="roomSelection-{{ apartment['apt_id'] }}" class="form-label mt-4">מספר חדרי שינה בדירה</label>
-										<select class="form-select" value="{{ apartment['rooms_in_apt'] }}" name="roomSelection-{{ apartment['apt_id'] }}" id="roomSelection-{{ apartment['apt_id'] }}" style="width:15%" onfocus="this.selectedIndex = -1;"  onchange="createRoomSetting(`{{ apartment['apt_id'] }}`, this.value, `roomsSettings-{{ apartment['apt_id'] }}`);">
-											<option>0</option>
+										<label for="roomSelection" class="col-form-label-lg mt-3">מספר חדרי שינה בדירה</label>
+										<select class="form-select" name="roomSelection" id="roomSelection" style="width:20%" onchange="createRoomSetting();" onfocus="this.selectedIndex = -1;">
+											<option selected>0</option>
 											<option>1</option>
 											<option>2</option>
 											<option>3</option>
@@ -201,115 +502,129 @@
 										<br>
 									</div>
 									<!-- Rooms quantity end -->
-
+									
 									<!-- Room settings start -->
-									<div class="form-group" id="roomsSettings-{{ apartment['apt_id'] }}"></div>
+									<div class="form-group" id="roomsSettings"></div>
 									<!-- Room settings end -->
-									<script>
-										document.addEventListener('DOMContentLoaded', function () {
-											const selectElement = document.querySelector("#roomSelection-{{ apartment['apt_id'] }}");
-											const optionElements = selectElement.querySelectorAll('option');
-											const roomsInApt = "{{ apartment['rooms_in_apt'] }}";
-											optionElements.forEach(optionElement => {
-												if (optionElement.value === roomsInApt) {
-													optionElement.selected = true;
-												}
-											});
-											createRoomSetting(`{{ apartment['apt_id'] }}`, `{{ apartment['rooms_in_apt'] }}`, `roomsSettings-{{ apartment['apt_id'] }}`);
-										});
-									</script>
+									<!-- Display flashed messages -->
+									{% with messages = get_flashed_messages(with_categories=true, category_filter=["new-apartment"]) %}
+										{% if messages %}
+											{% for category, message in messages %}
+												<div class="alert alert-dismissible alert-danger mt-2 mh-50" data-category="{{ category }}">
+													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+														<span aria-hidden="true"><strong>×</strong></span>
+													</button>
+													{{ message }}
+												</div>
+											{% endfor %}
+										{% endif %}
+									{% endwith %}
 								</div>
-								{% if rooms %}
-									{% for room in rooms %}
-										{% set bunk_beds_quantity_in_room = room['bunk_beds'] %}
-										{% set aminach_beds_quantity_in_room = room['aminach_beds'] %}
 
-										{% for bunk_bed in bunk_beds %}
-											{% if bunk_bed['apt_id'] == room['apt_id'] and bunk_bed['room_id'] == room['room_id'] %}
-												{% set bunk_bed_person1 = bunk_bed['person1'] %}
-												{% set bunk_bed_person2 = bunk_bed['person2'] %}
-											{% endif %}
-										{% endfor %}
-
-										{% for aminach_bed in aminach_beds %}
-											{% if aminach_bed['apt_id'] == room['apt_id'] and aminach_bed['room_id'] == room['room_id'] %}
-												{% set aminach_bed_person1 = aminach_bed['person1'] %}
-											{% endif %}
-										{% endfor %}
-									{% endfor %}
-								{% endif %}
-							</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+									{{ newBuildingForm.submit(class="btn btn-primary") }}
+								</div>
+								<script>
+									setTimeout(function() {
+										document.querySelectorAll('.alert').forEach(function(alert) {
+											alert.style.display = 'none';
+										});
+									}, 8000); // hide alerts after 8 seconds
+					
+									$(document).ready(function () {
+										let flashMessages = document.querySelectorAll('.alert[data-category]');
+										flashMessages.forEach(flashMessage => {
+											let category = flashMessage.getAttribute('data-category');
+											var messages = "{{ get_flashed_messages() }}";
+											if (category == 'new-building') {
+												if (typeof messages != 'undefined' && messages != '[]') {
+													$("#buildingModal").modal('show');
+												};
+											} else if (category == 'new-apartment') {
+												if (typeof messages != 'undefined' && messages != '[]') {
+													var buildingId = $('.send-building-id').data('id');
+													console.log(buildingId);
+													// Update the data-id attribute of the button with class 'send-building-id' with the building id
+													$('#sends-building-id').data('id', buildingId);
+													$('#building-id-new-apt').val(buildingId);
+													// Trigger a click event on the button with class 'send-building-id'
+													$('#sends-building-id').trigger('click');
+												};
+											}
+										});
+									});
+									$(document).ready(function () {
+										$('#roomModal').on('show.bs.modal', function (event) {
+											var button = $(event.relatedTarget); // Button that triggered the modal
+											var buildingId = button.data('id'); // Extract info from data-* attributes
+											// Update the value of the hidden input with the building id
+											$('#building-id-new-apt').val(buildingId);
+										});
+									});
+								</script>
+							</form>
 						</div>
 					</div>
-				{% endfor %}
-			{% endif %}
-			<!-- Modal existing rooms end -->
-
-			<!-- Modal new room start -->
-			<div class="modal fade" id="roomModal" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content card-text-right">
-						<form method="POST" action="{{ url_for('new_apartment') }}">
-							<div class="modal-header">
-								<h5 class="modal-title" id="roomModalLabel">יצירת חדר חדש</h5>
-							</div>
-							<div class="modal-body">
-								<input type="hidden" name="building-id" id="building-id" value=""/>
-
-								<div class="form-group">
-									<label class="col-form-label col-form-label-lg">מספר החדר החדש</label>
-									{{ newApartmentForm.hidden_tag() }}
-									{{ newApartmentForm.apt_id(class="form-control form-control-lg", type="number", placeholder="לדוגמה 120", dir="rtl") }}
-								</div>
-
-								<!-- Gender selection start -->
-								<div class="form-group" id="gender">
-									<label class="col-form-label col-form-label-lg">מגדר החדר</label>
-									<div class="form-group" role="group" aria-label="Basic radio toggle button group">
-										<input value="זכר" type="radio" class="btn-check" name="btnradio-home" id="btnradio1-home" autocomplete="off">
-										<label class="btn btn-outline-info" for="btnradio1-home" dir="rtl">זכר</label>
-										<input value="נקבה" type="radio" class="btn-check" name="btnradio-home" id="btnradio2-home" autocomplete="off">
-										<label class="btn btn-outline-secondary" for="btnradio2-home" dir="rtl">נקבה</label>
-										<input value="אחר" type="radio" class="btn-check" name="btnradio-home" id="btnradio3-home" autocomplete="off">
-										<label class="btn btn-outline-primary" for="btnradio3-home" dir="rtl">אחר</label>
-									</div>
-								</div>
-								<!-- Gender selection end -->
-
-								<!-- Rooms quantity start -->
-								<div class="form-group">
-									<label for="roomSelection" class="form-label mt-4">מספר חדרי שינה בדירה</label>
-									<select class="form-select" name="roomSelection" id="roomSelection" style="width:15%" onchange="createRoomSetting();" onfocus="this.selectedIndex = -1;">
-										<option selected>0</option>
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-										<option>6</option>
-										<option>7</option>
-										<option>8</option>
-										<option>9</option>
-									</select>
-									<br>
-								</div>
-								<!-- Rooms quantity end -->
-								
-								<!-- Room settings start -->
-								<div class="form-group" id="roomsSettings"></div>
-								<!-- Room settings end -->
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
-								{{ newBuildingForm.submit(class="btn btn-primary") }}
-							</div>
-						</form>
-					</div>
 				</div>
-			</div>
-			<!-- Modal new room end -->
+				<!-- Modal new room end -->
+			{% endif %}
 		</div>
 	</div>
-</div>
-    
+
+	<!-- Card filter start -->
+	<div class="col-lg-3 card-text-right">
+		<div class="card mb-3">
+			<h3 class="card-header">פילטר</h3>
+			<div class="card-body card-text-right">
+				<form method="POST" action="{{ url_for('gather_data_for_filter') }}">
+					<div class="form-group" id="fullName">
+						<label class="col-form-label mt-2">שם מלא</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-names" multiple data-live-search="true" title="--" name="filter-names">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="apartment-filter">
+						<label class="col-form-label mt-2">דירה</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-apartments" multiple data-live-search="true" title="--" name="filter-apartments">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="frame">
+						<label class="col-form-label mt-2">מסגרת</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-frames" multiple data-live-search="true" title="--" name="filter-frames">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="gender-filter">
+						<label class="col-form-label mt-2">מגדר</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-genders" multiple data-live-search="true" title="--" name="filter-genders">
+								<option class="card-text-right" value="זכר">זכר</option>
+								<option class="card-text-right" value="נקבה">נקבה</option>
+								<option class="card-text-right" value="אחר">אחר</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="free-beds-filter">
+						<label class="col-form-label mt-2">האם להציג דירות עם מיטות פנויות בלבד?</label>
+						<div class="form-group" role="group" aria-label="Basic radio toggle button group">
+							<input value="כן" type="radio" class="btn-check" name="btnradio-free-beds" id="btnradio-free-beds-yes" autocomplete="off">
+							<label class="btn btn-outline-dark" for="btnradio-free-beds-yes" dir="rtl">כן</label>
+							<input value="לא" type="radio" class="btn-check" name="btnradio-free-beds" id="btnradio-free-beds-no" autocomplete="off" checked>
+							<label class="btn btn-outline-dark" for="btnradio-free-beds-no" dir="rtl">לא</label>
+						</div>
+					</div>
+					<div class="form-group" id="submit-filter">
+						<button type="submit" class="btn btn-info mt-5" name="submit-filter" id="submit-filter">פלטר לי!</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Card filter end -->
+</div> 
 {% endblock %}

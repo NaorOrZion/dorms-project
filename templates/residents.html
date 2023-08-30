@@ -7,189 +7,383 @@
     </br>
     </br>
     <div class="row">
+        <!-- Residents chart start -->
+        <div class="col-lg-9">
+            <div class="row">
+                {% if is_logged_in %}
+                    <div class="d-grid col-6">
+                        <a class="btn btn-primary mb-3" href="{{ url_for('download_excel_residents_current') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            אקסל מתגוררים קיימים
+                        </a>    
+                    </div>
+                {% else %}
+                    <div class="d-grid col-12">
+                        <a class="btn btn-primary mb-3" href="{{ url_for('download_excel_residents_current') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            אקסל מתגוררים קיימים
+                        </a>
+                    </div>
+                {% endif %}
+                {% if is_logged_in %}
+                    <!-- Add new resident start -->
+                    <div class="d-grid col-6">
+                        <button class="btn btn-outline-primary mb-3" dir="rtl" data-toggle="modal" data-target="#residentModal">הוספת מתגורר +</button>
+                    </div>
+                    <!-- Add new resident end -->
+                {% endif %}
+            </div>  
+            {% if is_logged_in %}
+            <div class="scrollable-auth-user">
+                <!-- Delete selected residents start -->
+                <div class="toast smaller-toast mb-3" id="toast-residents-selection" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body">
+                        <div class="d-grid col-12">
+                            <button class="btn btn-secondary" id="submit-delete-selected-residents">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>    
+                </div>
+                <!-- Delete selected residents end -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input checkbox-lg" type="checkbox" value="check-all" id="checkbox-all-resident" name="checkbox-all-resident">
+                            </div>
+                        </th>
+                        <th scope="col">#</th>
+                        <th scope="col">שם מלא</th>
+                        <th scope="col">מסגרת</th>
+                        <th scope="col">מגדר</th>
+                        <th scope="col">סוג שירות</th>
+                        <th scope="col">גר/ה בבאר שבע</th>
+                        <th scope="col">תעודת זהות</th>
+                        <th scope="col">דירה</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resident in residents %}
+                        <tr class="table-light">
+                            <th scope="row">
+                                <div class="form-check">
+                                    <input class="form-check-input checkbox-lg checkbox-selection" type="checkbox" value="{{ resident['id'] }}" id="checkbox-resident-{{ resident['id'] }}" name="checkbox-resident-{{ resident['id'] }}">
+                                </div>
+                            </th>
+                            <th>{{ resident['id'] }}</th>
+                            <td>{{ resident['full_name'] }}</td>
+                            <td>{{ resident['association'] }}</td>
+                            <td>{{ resident['gender'] }}</td>
+                            <td>{{ resident['service'] }}</td>
+                            <td>{{ resident['beersheva'] }}</td>
+                            <td>{{ resident['taz'] }}</td>
+                            <td>{{ "-" if resident['apartment'] == None else resident['apartment'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="scrollable">
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">שם מלא</th>
+                        <th scope="col">מסגרת</th>
+                        <th scope="col">מגדר</th>
+                        <th scope="col">סוג שירות</th>
+                        <th scope="col">גר/ה בבאר שבע</th>
+                        <th scope="col">תעודת זהות</th>
+                        <th scope="col">דירה</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resident in residents %}
+                        <tr class="table-light">
+                            <th>{{ resident['id'] }}</th>
+                            <td>{{ resident['full_name'] }}</td>
+                            <td>{{ resident['association'] }}</td>
+                            <td>{{ resident['gender'] }}</td>
+                            <td>{{ resident['service'] }}</td>
+                            <td>{{ resident['beersheva'] }}</td>
+                            <td>{{ resident['taz'] }}</td>
+                            <td>{{ "-" if resident['apartment'] == None else resident['apartment'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+        {% if is_logged_in %}
+        <script>
+            $("#checkbox-all-resident").change(function() {
+                if($(this).is(":checked")) {
+                    $(".checkbox-selection").each(function() {
+                        $(this).prop('checked', true);
+                    });
+                }
+                else {
+                    $(".checkbox-selection").each(function() {
+                        $(this).prop('checked', false);
+                    });
+                }
+                updateToastVisibility();       
+            });
+            $(".checkbox-selection").change(function() {
+                var allSelected = true;
+
+                $(".checkbox-selection").each(function() {
+                    if(!$(this).is(":checked")) {
+                        $("#checkbox-all-resident").prop('checked', false);
+                        allSelected = false;
+                    }
+                });
+
+                if(allSelected)
+                    $("#checkbox-all-resident").prop('checked', true);
+            });
+        </script>
+        <!-- Residents end -->
+        {% endif %}
+
         <!-- Card filter start -->
         <div class="col-lg-3 card-text-right">
+        <div class="card mb-3">
+            <h3 class="card-header">פילטר</h3>
+            <div class="card-body card-text-right">
+				<form method="POST" action="{{ url_for('gather_data_filter_residents') }}">
+					<div class="form-group" id="fullName">
+						<label class="col-form-label mt-2">שם מלא</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-names-residents-page" multiple data-live-search="true" title="--" name="filter-names">
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group" id="frame">
+						<label class="col-form-label mt-2">מסגרת</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-frames" multiple data-live-search="true" title="--" name="filter-frames">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="gender-filter">
+						<label class="col-form-label mt-2">מגדר</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-genders" multiple data-live-search="true" title="--" name="filter-genders">
+								<option class="card-text-right" value="זכר">זכר</option>
+								<option class="card-text-right" value="נקבה">נקבה</option>
+								<option class="card-text-right" value="אחר">אחר</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group" id="service-filter">
+						<label class="col-form-label mt-2">סוג שירות</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-services" multiple data-live-search="true" title="--" name="filter-services">
+								<option class="card-text-right" value="חובה">חובה</option>
+								<option class="card-text-right" value="חניך/ה">חניך/ה</option>
+								<option class="card-text-right" value="קבע">קבע</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group" id="beersheva-filter">
+						<label class="col-form-label mt-2">גר/ה בבאר שבע</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-beersheva" multiple data-live-search="true" title="--" name="filter-beersheva">
+								<option class="card-text-right" value="כן">כן</option>
+								<option class="card-text-right" value="לא">לא</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group" id="apartment-filter">
+						<label class="col-form-label mt-2">דירה</label>
+						<div class="container">
+							<select class="selectpicker filter-selectpicker-apartments" multiple data-live-search="true" title="--" name="filter-apartments">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="submit-filter">
+						<button type="submit" class="btn btn-info mt-5" name="submit-filter" id="submit-filter-residents">פלטר לי!</button>
+					</div>
+				</form>
+			</div>
+        </div>
+        {% if is_logged_in %}
             <div class="card mb-3">
-                <h3 class="card-header">פילטר</h3>
+                <h6 class="card-header">העלאת מתגוררים</h6>
                 <div class="card-body card-text-right">
-                    <div class="form-group" id="fullName">
-                        <label class="col-form-label mt-2" for="inputName">שם מלא</label>
-                        <div class="container">
-                            <select class="selectpicker" data-live-search="true" id="inputName">
-                              <option selected>ללא</option>
-                              <option value="1">נאור אור ציון</option>
-                              <option value="2">אליס פבזנר</option>
-                            </select>
-                        </div>
+                    <div class="form-group mt-1">
+                        <form action="{{ url_for('upload_excel_residents') }}" method="POST" enctype="multipart/form-data">
+                            <label class="mb-2" for="upload-excel-residents">העלאת קובץ אקסל</label>
+                            <div class="input-group custom-file-button">
+                                <label class="input-group-text" for="upload-excel-residents">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-xlsx" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM7.86 14.841a1.13 1.13 0 0 0 .401.823c.13.108.29.192.479.252.19.061.411.091.665.091.338 0 .624-.053.858-.158.237-.105.416-.252.54-.44a1.17 1.17 0 0 0 .187-.656c0-.224-.045-.41-.135-.56a1.002 1.002 0 0 0-.375-.357 2.028 2.028 0 0 0-.565-.21l-.621-.144a.97.97 0 0 1-.405-.176.37.37 0 0 1-.143-.299c0-.156.061-.284.184-.384.125-.101.296-.152.513-.152.143 0 .266.023.37.068a.624.624 0 0 1 .245.181.56.56 0 0 1 .12.258h.75a1.093 1.093 0 0 0-.199-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.552.05-.777.15-.224.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.123.524.082.149.199.27.351.367.153.095.332.167.54.213l.618.144c.207.049.36.113.462.193a.387.387 0 0 1 .153.326.512.512 0 0 1-.085.29.558.558 0 0 1-.255.193c-.111.047-.25.07-.413.07-.117 0-.224-.013-.32-.04a.837.837 0 0 1-.249-.115.578.578 0 0 1-.255-.384h-.764Zm-3.726-2.909h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Zm1.923 3.325h1.697v.674H5.266v-3.999h.791v3.325Zm7.636-3.325h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Z"/>
+                                    </svg>
+                                </label>
+                                <input type="file" accept=".xlsx" class="form-control" id="upload-excel-residents" name="upload-excel-residents">
+                            </div>
+                        
+                            <div class="form-group">
+                                </br>
+                                <button type="submit" class="btn btn-info">העלאה 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                </button>
+                            </div>
+                        </form> 
+                        {% with messages = get_flashed_messages(with_categories=true, category_filter=["residents-upload"]) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if message == "הקובץ הועלה בהצלחה" %}
+                                        <div class="alert alert-dismissible alert-success mt-4" data-category="{{ category }}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><strong>×</strong></span>
+                                            </button>
+                                            {{ message }}
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-dismissible alert-danger mt-4" data-category="{{ category }}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><strong>×</strong></span>
+                                            </button>
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
                     </div>
-                    <div class="form-group" id="room">
-                        <label class="col-form-label mt-2" for="inputRoom-residents">חדר</label>
-                        <div class="container">
-                            <select class="selectpicker" data-live-search="true" id="inputRoom" id="inputRoom-residents">
-                              <option selected>ללא</option>
-                              <option value="1">120</option>
-                              <option value="2">121</option>
-                              <option value="3">122</option>
-                              <option value="4">123</option>
-                              <option value="5">124</option>
-                              <option value="6">125</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="frame">
-                        <label class="col-form-label mt-2" for="inputFrame-residents">מסגרת</label>
-                        <div class="container">
-                            <select class="selectpicker" data-live-search="true" id="inputFrame-residents">
-                                <option value="None" selected>ללא</option>
-                                <option value="מעטפת">מעטפת</option>
-                                <option value="תכנות כחול">תכנות כחול</option>
-                                <option value="תכנות אדום">תכנות אדום</option>
-                                <option value="תכנות צהוב">תכנות צהוב</option>
-                                <option value="תכנות ירוק">תכנות ירוק</option>
-                                <option value="דאטה">דאטה</option>
-                                <option value="SRE">SRE</option>
-                                <option value="DevOps">DevOps</option>
-                                <option value="QA">QA</option>
-                                <option value="מגן סייבר א">מגן סייבר א</option>
-                                <option value="מגן סייבר ב">מגן סייבר ב</option>
-                                <option value="לוגיסטיקה">לוגיסטיקה</option>
-                                <option value="אחר">אחר</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="gender">
-                        <label class="col-form-label mt-2">מגדר החדר</label>
-                        <div class="form-group" role="group" aria-label="Basic radio toggle button group">
-                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio1-residents-filter" autocomplete="off">
-                          <label class="btn btn-outline-info" for="btnradio1-residents-filter" dir="rtl">זכר</label>
-                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio2-residents-filter" autocomplete="off">
-                          <label class="btn btn-outline-secondary" for="btnradio2-residents-filter" dir="rtl">נקבה</label>
-                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio3-residents-filter" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btnradio3-residents-filter" dir="rtl">טראנס</label>
-                          <input type="radio" class="btn-check" name="btnradio-residents-filter" id="btnradio4-residents-filter" autocomplete="off" checked="">
-                          <label class="btn btn-outline-dark" for="btnradio4-residents-filter" dir="rtl">ללא</label>
-                        </div>
-                    </div>
+                    <hr>
                     <div class="form-group">
-                        <label for="roomSelection" class="form-label mt-4">אינדיקציית מרחק</label>
-                        <select class="form-select" id="roomSelection" style="width:30%">
-                          <option>ללא</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                        </select>
-                        <br>
-                    </div>
+                        <label class="mb-2">תבנית קובץ אקסל רצוי</label>
+                        </br>
+                        <a class="btn btn-primary mb-1" href="{{url_for('download_excel_residents_template')}}">להורדה 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                        </a>    
+                    </div>  
                 </div>
             </div>
+        {% endif %}
         </div>
         <!-- Card filter end -->
 
-        <!-- Residents chart start -->
-        <div class="col-lg-8">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">שם מלא</th>
-                      <th scope="col">מסגרת</th>
-                      <th scope="col">מגדר</th>
-                      <th scope="col">אינדיקציית מרחק</th>
-                      <th scope="col">תאריך כניסה</th>
-                      <th scope="col">תאריך יציאה</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for resident in residents %}
-                    <tr class="table-light">
-                        <th scope="row">{{ resident['id'] }}</th>
-                        <td>{{ resident['full_name'] }}</td>
-                        <td>{{ resident['association'] }}</td>
-                        <td>{{ resident['gender'] }}</td>
-                        <td>{{ resident['distance'] }}</td>
-                        <!-- Date format DD.MM.YYYY -->
-                        <td>{{ resident['entering_date'] }}</td> 
-                        <td>{{ resident['existing_date'] }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-            </table>
-        </div>
-        <!-- Residents end -->
-
-        <!-- Add new resident start -->
-        <div class="col-lg-1">
-            <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#residentModal"> + </button>
-        </div>
-        <!-- Add new resident end -->
-
-        <!-- Modal new resident start -->
-        <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="residentModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <form method="POST" action="{{ url_for('new_resident') }}">
-                    <div class="modal-content card-text-right">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="roomModalLabel">יצירת מתגורר חדש</h5>
-                        </div>
-                        <div class="modal-body">
-                                <div class="form-group">
+        {% if is_logged_in %}
+            <!-- Modal new resident start -->
+            <div class="modal fade" id="residentModal" tabindex="-1" role="dialog" aria-labelledby="residentModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form method="POST" action="{{ url_for('new_resident') }}">
+                        <div class="modal-content card-text-right">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="roomModalLabel">יצירת מתגורר חדש</h5>
+                            </div>
+                            <div class="modal-body">
                                     <div class="form-group">
-                                        <label class="col-form-label col-form-label-lg mt-4" for="input-full-name-resident">שם מלא</label>
-                                        {{ newResidentForm.full_name_field(class="form-control form-control-lg", placeholder="ניסים מזרחי אדרי בן זכאי", style="width: 70%;") }}
-                                    </div>
-
-                                    <label class="col-form-label col-form-label-lg mt-4" for="inputRoom">מסגרת</label>
-                                    <div class="form-group">
-                                        {{ newResidentForm.frame_selection_field(class="selectpicker", data_live_search="true") }}
-                                    </div>
-
-                                    <!-- Gender selection start -->
-                                    <div class="form-group" id="gender">
-                                        <label class="col-form-label col-form-label-lg mt-4">מגדר</label>
-                                        <div class="form-group" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio1-resident" value="זכר" autocomplete="off">
-                                            <label class="btn btn-outline-info" for="btnradio1-resident" dir="rtl">זכר</label>
-                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio2-resident" value="נקבה" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="btnradio2-resident" dir="rtl">נקבה</label>
-                                            <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio3-resident" value="אחר" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btnradio3-resident" dir="rtl">אחר</label>
+                                        <div class="form-group">
+                                            <label class="col-form-label col-form-label-lg mt-4" for="input-full-name-resident">שם מלא</label>
+                                            {{ newResidentForm.full_name_field(class="form-control form-control-lg", placeholder="ניסים מזרחי אדרי בן זכאי", style="width: 70%;") }}
                                         </div>
-                                    </div>
-                                    <!-- Gender selection end -->
 
-                                    <div class="form-group">
-                                        <label for="distance-indication-resident" class="col-form-label col-form-label-lg mb-1 mt-4">אינדיקציית מרחק</label>
+                                        <label class="col-form-label col-form-label-lg mt-4" for="inputRoom">מסגרת</label>
+                                        <div class="form-group">
+                                            {{ newResidentForm.frame_selection_field(class="selectpicker", data_live_search="true") }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="service-resident" class="col-form-label col-form-label-lg mb-1 mt-4">סוג שירות</label>
+                                            </br>
+                                            {{ newResidentForm.select_service_field(class="selectpicker", style="width:30%", id="service-resident") }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="is-beersheva-resident" class="col-form-label col-form-label-lg mb-1 mt-4">גר/ה בבאר שבע?</label>
+                                            </br>
+                                            {{ newResidentForm.is_beersheva_selection_field(class="selectpicker", style="width:30%", id="is-beersheva-resident") }}
+                                        </div>
+
+                                        <!-- Gender selection start -->
+                                        <div class="form-group" id="gender">
+                                            <label class="col-form-label col-form-label-lg mt-4">מגדר</label>
+                                            <div class="form-group" role="group" aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio1-resident" value="זכר" autocomplete="off">
+                                                <label class="btn btn-outline-info" for="btnradio1-resident" dir="rtl">זכר</label>
+                                                <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio2-resident" value="נקבה" autocomplete="off">
+                                                <label class="btn btn-outline-secondary" for="btnradio2-resident" dir="rtl">נקבה</label>
+                                                <input type="radio" class="btn-check" name="btnradio-resident" id="btnradio3-resident" value="אחר" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio3-resident" dir="rtl">אחר</label>
+                                            </div>
+                                        </div>
+                                        <!-- Gender selection end -->
+
+                                        <div class="form-group">
+                                            <label class="col-form-label col-form-label-lg mb-1 mt-4">מספר תעודת זהות</label>
+                                            </br>
+                                            {{ newResidentForm.taz_field(class="form-control", placeholder="111111111", style="width: 45%;") }}
+                                        </div>
                                         </br>
-                                        {{ newResidentForm.distance_selection_field(class="selectpicker", data_live_search="true", style="width:30%", id="distance-indication-resident") }}
+                                        
                                     </div>
-
-                                    
-        
-                                    <!-- Enter date -->
-                                    <label for="datepicker-enter" class="col-form-label col-form-label-lg mt-4">תאריך כניסה:</label>
-                                    <div id="datepicker-enter" class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                        <input class="form-control" type="text" name="enter-date" readonly />
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-
-                                    <!-- Exit date -->
-                                    <label for="datepicker-exit" class="col-form-label col-form-label-lg mt-4">תאריך יציאה:</label>
-                                    <div id="datepicker-exit" class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-                                        <input class="form-control" type="text" name="exit-date" readonly />
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    </div>
-                                    </br>
-                                    
-                                </div>
+                                    {% with messages = get_flashed_messages(with_categories=true, category_filter=["new-resident"]) %}
+                                        {% if messages %}
+                                            {% for category, message in messages %}
+                                                <div class="alert alert-dismissible alert-danger mt-4" data-category="{{ category }}">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><strong>×</strong></span>
+                                                    </button>
+                                                    {{ message }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endwith %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
+                                {{ newResidentForm.submit(class="btn btn-primary", type="submit") }}
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    let flashMessages = document.querySelectorAll('.alert[data-category]');
+                                    flashMessages.forEach(flashMessage => {
+                                        let category = flashMessage.getAttribute('data-category');
+                                        var messages = "{{ get_flashed_messages() }}";
+                                        if (category == 'new-resident') {
+                                            if (typeof messages != 'undefined' && messages != '[]') {
+                                                $("#residentModal").modal('show');
+                                            };
+                                        }
+                                    });
+                                });
+                            </script>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">סגירה</button>
-                            {{ newResidentForm.submit(class="btn btn-primary", type="submit") }}
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- Modal new resident end -->
+            <!-- Modal new resident end -->
+            <script>
+                setTimeout(function() {
+                    document.querySelectorAll('.alert').forEach(function(alert) {
+                        alert.style.display = 'none';
+                    });
+                }, 8000); // hide alerts after 8 seconds
+            </script>
+        {% endif %}
     </div>
 {% endblock %}
