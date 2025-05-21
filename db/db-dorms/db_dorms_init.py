@@ -13,6 +13,9 @@ from db import get_db
 conn = get_db()
 c = conn.cursor()
 
+# Create schema if it doesn't exist
+c.execute("CREATE SCHEMA IF NOT EXISTS \"dorms-db\"")
+
 # Delete the current tables exists
 c.execute("DROP TABLE IF EXISTS buildings CASCADE")
 c.execute("DROP TABLE IF EXISTS apartments CASCADE")

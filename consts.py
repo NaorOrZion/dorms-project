@@ -68,9 +68,9 @@ APT_RESIDENTS_TABLE = "apartment"
 ## PostgreSQL consts
 # db connection consts
 DB_HOST = "localhost"
-DB_NAME = "postgres"
+DB_NAME = "dorms"
 DB_USER = "postgres"
-DB_PASS = "Naor55060606!"
+DB_PASS = "mynewpassword123"
 DB_PORT = 5432
 
 

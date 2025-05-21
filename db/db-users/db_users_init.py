@@ -12,6 +12,9 @@ from db_users import get_db_users
 conn = get_db_users()
 c = conn.cursor()
 
+# Create schema if it doesn't exist
+c.execute("CREATE SCHEMA IF NOT EXISTS \"users-db\"")
+
 # Delete the current tables exists
 c.execute("DROP TABLE IF EXISTS users")
 

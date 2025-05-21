@@ -1,85 +1,108 @@
-# Student Dormitory Management System
+# Dorms Management System
 
-A comprehensive system for managing student dormitories, handling residents, apartments, and payments. Built with Flask and PostgreSQL.
+A web application for managing dormitory buildings, apartments, rooms, and residents.
 
-## Key Features
+## Prerequisites
 
-- Resident and apartment management
-- Payment tracking
-- Advanced filtering and search capabilities
-- Excel data import/export functionality
-- User permission system
-- User-friendly interface
+- Python 3.13 or later
+- PostgreSQL database server
+- pip (Python package manager)
 
-## System Requirements
+## Installation
 
-- Python 3.8 or higher
-- PostgreSQL
-- Dependencies listed in requirements.txt
-
-## Installation and Setup
-
-1. Install Python 3.8 or higher
-2. Install PostgreSQL and create a new database
-
-3. Clone the repository:
+1. Clone the repository:
 ```bash
-git clone [your-repository-url]
+git clone <repository-url>
 cd dorms-project
 ```
 
-4. Create and activate a virtual environment:
-```bash
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Linux/Mac:
-source venv/bin/activate
-```
-
-5. Install dependencies:
+2. Install required Python packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-6. Set up environment variables:
+3. Set up PostgreSQL database:
+   - Create a new PostgreSQL database
+   - Update the database connection settings in `consts.py`:
+     ```python
+     DB_HOST = "localhost"  # Your PostgreSQL host
+     DB_NAME = "your_database_name"
+     DB_USER = "your_username"
+     DB_PASS = "your_password"
+     DB_PORT = "5432"  # Default PostgreSQL port
+     ```
+
+## Database Initialization
+
+The application uses two separate schemas in the database:
+- `users-db`: For user authentication
+- `dorms-db`: For dormitory management
+
+To initialize the databases:
+
+1. Initialize the users database (required for login):
 ```bash
-# On Windows:
-set FLASK_APP=app.py
-set FLASK_ENV=development
-# On Linux/Mac:
-export FLASK_APP=app.py
-export FLASK_ENV=development
+python db/db-users/db_users_init.py
+```
+This will:
+- Create the `users-db` schema
+- Create the `users` table
+- Add a default admin user (username: `c00ladmin`, password: `reallycooladmin7845`)
+
+2. Initialize the dorms database:
+```bash
+python db/db-dorms/db_dorms_init.py
+```
+This will:
+- Create the `dorms-db` schema
+- Create all necessary tables:
+  - `buildings`
+  - `apartments`
+  - `rooms`
+  - `aminach_bed`
+  - `bunk_bed`
+  - `residents`
+
+## Running the Application
+
+1. Start the Flask development server:
+```bash
+python app.py
 ```
 
-7. Initialize the database:
-```bash
-python db.py
+2. Open your web browser and navigate to:
+```
+http://localhost:5000
 ```
 
-8. Run the server:
+3. Log in using the default admin credentials:
+- Username: `c00ladmin`
+- Password: `reallycooladmin7845`
+
+## Database Management
+
+You can view the contents of the database tables using the provided scripts:
+
+1. View users database tables:
 ```bash
-flask run
+python db/db-users/show_tables.py
 ```
 
-The system will be available at: http://localhost:5000
+2. View dorms database tables:
+```bash
+python db/db-dorms/show_tables.py
+```
 
-## Project Structure
+## Troubleshooting
 
-- `app.py` - Main application file
-- `db.py` - Database configuration
-- `db_users.py` - User management
-- `auth_utils.py` - Authentication functions
-- `flask_forms.py` - Flask-WTF forms
-- `filter_apartments_utils.py` - Apartment filtering functions
-- `filter_residents_util.py` - Resident filtering functions
-- `get_functions.py` - Data retrieval functions
-- `residents_xlsx_utils.py` - Excel file handling
-- `templates/` - HTML templates
-- `static/` - Static files (CSS, JavaScript)
-- `db/` - Database files
-- `files/` - Uploaded system files
+If you encounter database-related errors:
 
-## Support
+1. Make sure PostgreSQL is running
+2. Verify database connection settings in `consts.py`
+3. Try reinitializing the databases using the initialization scripts
+4. Check that both schemas (`users-db` and `dorms-db`) exist in your database
 
-For questions and support, please contact the system administrator (me) or open an issue in the repository.
+Common errors:
+- `no schema has been selected to create in`: Run the database initialization scripts
+- `relation does not exist`: Run the database initialization scripts
+- Connection errors: Verify database settings in `consts.py`
